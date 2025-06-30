@@ -8,12 +8,9 @@
           <div class="item">
             <div class="title mb-4 font-bold text-primary">Indeks SPBE</div>
             <Card>
-              <CardHeader>
-                <CardTitle>Card Title</CardTitle>
-                <CardDescription>Card Description</CardDescription>
-              </CardHeader>
-              <CardContent> Card Content </CardContent>
-              <CardFooter> Card Footer </CardFooter>
+              <CardContent>
+                <div class="chart h-64"></div>
+              </CardContent>
             </Card>
           </div>
         </div>
