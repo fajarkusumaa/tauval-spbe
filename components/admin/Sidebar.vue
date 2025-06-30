@@ -6,7 +6,7 @@
     <div>
       <h2 class="text-lg font-bold mb-8">MAESTRO SPBE</h2>
       <nav class="space-y-2">
-        <SidebarItem icon="🏠" text="Dashboard" />
+        <!-- <SidebarItem icon="DashboardCircleEditIcon" text="Dashboard" /> -->
         <SidebarItem icon="📁" text="Referensi Data" />
         <SidebarItem icon="👥" text="Persiapan Tim Asesor & Instrumen" />
         <SidebarItem icon="📊" text="Hasil Respon Instrumen" />
