@@ -1,18 +1,18 @@
 <!-- layouts/admin.vue -->
 <template>
   <div
-    class="flex min-h-screen bg-gradient-to-br from-[#E5F1FF] to-[#F1F5FF] text-gray-900"
+    class="flex min-h-screen bg-gradient-to-br w-screen overflow-hidden from-[#E5F1FF] to-[#F1F5FF] text-gray-900"
   >
     <!-- Sidebar -->
     <Sidebar />
 
     <!-- Main Content -->
-    <div class="flex flex-col flex-1">
+    <div class="flex flex-col flex-1 w-full max-h-screen overflow-hidden">
       <!-- Topbar -->
       <Navbar />
 
       <!-- Page Content -->
-      <main class="flex-1 p-6">
+      <main class="flex-1 p-6 w-full overflow-y-auto">
         <slot />
       </main>
     </div>
