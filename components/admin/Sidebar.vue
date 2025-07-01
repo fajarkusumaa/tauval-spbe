@@ -15,6 +15,7 @@ import { Folder02Icon } from "@hugeicons/core-free-icons";
       <h2 class="text-lg font-bold mb-8">MAESTRO SPBE</h2>
       <nav class="space-y-2">
         <!-- <SidebarItem icon="DashboardCircleEditIcon" text="Dashboard" /> -->
+        <SidebarItem to="/admin" icon="Folder02Icon" text="Dashboard" />
         <SidebarItem
           to="/referensi-data"
           icon="Folder02Icon"

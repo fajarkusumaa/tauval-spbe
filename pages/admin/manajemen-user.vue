@@ -13,10 +13,11 @@
         <TableRow
           class="hover:bg-slate-800 bg-slate-800 text-slate-50 font-semibold"
         >
+          <TableHead class="text-center w-10">#</TableHead>
           <TableHead>Nama</TableHead>
           <TableHead>Email</TableHead>
-          <TableHead>Role</TableHead>
-          <TableHead>Status</TableHead>
+          <TableHead class="text-center"> Role</TableHead>
+          <TableHead class="text-center">Status</TableHead>
           <TableHead class="text-center">Aksi</TableHead>
         </TableRow>
       </TableHeader>
@@ -26,10 +27,13 @@
           :key="user.id"
           class="hover:bg-muted/50 transition-colors"
         >
+          <TableCell class="text-center">{{
+            users.indexOf(user) + 1
+          }}</TableCell>
           <TableCell>{{ user.name }}</TableCell>
           <TableCell>{{ user.email }}</TableCell>
-          <TableCell class="capitalize">{{ user.role }}</TableCell>
-          <TableCell>
+          <TableCell class="capitalize text-center">{{ user.role }}</TableCell>
+          <TableCell class="text-center">
             <Badge
               :variant="user.status === 'active' ? 'default' : 'secondary'"
             >
@@ -62,13 +66,29 @@
   >
     <DialogContent>
       <DialogHeader>
-        <DialogTitle class="text-xl mb-3">Edit Kriteria Indikator</DialogTitle>
+        <DialogTitle class="text-xl mb-3">Tambah User</DialogTitle>
       </DialogHeader>
 
-      <div class="grid gap-4 py-4">
+      <div class="grid gap-4 pb-4">
         <div class="flex gap-4 items-center">
-          <label class="font-semibold w-1/4">Tingkat</label>
-          <label class="font-semibold w-3/4">Kriteria</label>
+          <div class="grid w-2/3 max-w-sm items-center gap-1.5">
+            <Label for="nama">Nama</Label>
+            <Input id="nama" type="text" placeholder="Masukkan nama" />
+          </div>
+          <div class="grid w-1/3 max-w-sm items-center gap-1.5">
+            <Label for="role">Role</Label>
+            <Select>
+              <SelectTrigger class="w-full">
+                <SelectValue placeholder="Pilih Role" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectGroup>
+                  <SelectItem value="admin"> Admin </SelectItem>
+                  <SelectItem value="common"> Common User </SelectItem>
+                </SelectGroup>
+              </SelectContent>
+            </Select>
+          </div>
         </div>
       </div>
 
@@ -97,6 +117,14 @@ import {
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import Dialog from "~/components/ui/dialog/Dialog.vue";
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "~/components/ui/select";
 
 const isDialogOpen = ref(false);
 

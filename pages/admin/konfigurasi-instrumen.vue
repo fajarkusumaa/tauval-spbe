@@ -4,10 +4,10 @@
       Konfigurasi Instrumen
     </h1>
 
-    <Table class="bg-white rounded shadow overflow-x-auto">
-      <TableBody>
-        <!-- Loop Domain Group -->
-        <template v-for="(group, index) in groupedData" :key="index">
+    <template v-for="(group, index) in groupedData" :key="index">
+      <Table class="bg-white overflow-x-auto mb-4 overflow-hidden">
+        <TableBody>
+          <!-- Loop Domain Group -->
           <!-- Header Domain -->
           <TableRow
             class="hover:bg-slate-800 bg-slate-800 text-slate-50 font-semibold"
@@ -52,9 +52,9 @@
               </Button>
             </TableCell>
           </TableRow>
-        </template>
-      </TableBody>
-    </Table>
+        </TableBody>
+      </Table>
+    </template>
   </div>
 
   <Dialog
