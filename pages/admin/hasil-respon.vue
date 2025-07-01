@@ -1,13 +1,11 @@
 <template>
   <div>
     <h1 class="text-2xl font-bold text-slate-700 mb-6">
-      Konfigurasi Instrumen
+      Hasil Respon Instrumen SPBE
     </h1>
 
     <template v-for="(group, index) in groupedData" :key="index">
-      <Table
-        class="bg-white overflow-x-auto mb-4 overflow-hidden border-separate"
-      >
+      <Table class="overflow-x-auto mb-4 overflow-hidden border-separate">
         <TableBody>
           <!-- Loop Domain Group -->
           <!-- Header Domain -->
@@ -22,13 +20,11 @@
           <!-- Table Header -->
           <TableRow class="bg-gray-200 text-sm text-gray-600 hover:bg-gray-200">
             <TableHead>Indikator</TableHead>
-            <TableHead class="w-8/12">Penjelasan</TableHead>
             <TableHead class="text-center">Indeks</TableHead>
-            <TableHead class="text-center">Target</TableHead>
-            <TableHead class="text-center">Satker</TableHead>
-            <TableHead>Substansi</TableHead>
-            <TableHead class="w-4">Tindak Lanjut 2024</TableHead>
-            <TableHead class="text-center">Aksi</TableHead>
+            <TableHead class="text-center">Status</TableHead>
+            <TableHead class="text-center">Target 2024</TableHead>
+            <TableHead>Satker Penanggung Jawab</TableHead>
+            <TableHead class="w-4">Progress Pengisian</TableHead>
           </TableRow>
 
           <!-- Rows per Indikator -->
@@ -38,21 +34,11 @@
             class="hover:bg-muted/200"
           >
             <TableCell>{{ item.indikator }}</TableCell>
-            <TableCell>{{ item.penjelasan }}</TableCell>
-            <TableCell class="text-center">{{ item.indeks }}</TableCell>
+            <TableCell>{{ item.indeks }}</TableCell>
+            <TableCell class="text-center">{{ item.status }}</TableCell>
             <TableCell>{{ item.target }}</TableCell>
             <TableCell>{{ item.satker }}</TableCell>
-            <TableCell>{{ item.substansi }}</TableCell>
-            <TableCell class="w-4 text-wrap">{{ item.tindakLanjut }}</TableCell>
-            <TableCell class="text-center">
-              <Button
-                size="sm"
-                @click="handleEdit(item, group.domain)"
-                class="cursor-pointer"
-              >
-                Edit
-              </Button>
-            </TableCell>
+            <TableCell>{{ item.progress }}</TableCell>
           </TableRow>
         </TableBody>
       </Table>
@@ -138,17 +124,6 @@ const selectedItem = ref<any>({
 });
 
 const handleEdit = (item: any, domain: string) => {
-  selectedItem.value = {
-    domain: domain,
-    indikator: item.penjelasan, // kamu bisa ganti field ini sesuai kebutuhan
-    kriteria: [
-      { level: "Level 1", deskripsi: "..." },
-      { level: "Level 2", deskripsi: "..." },
-      { level: "Level 3", deskripsi: "..." },
-      { level: "Level 4", deskripsi: "..." },
-      { level: "Level 5", deskripsi: "..." },
-    ],
-  };
   console.log(item);
   isDialogOpen.value = true;
 };
@@ -166,48 +141,77 @@ const handleSave = () => {
 // Grouped Data: per domain
 const groupedData = [
   {
-    domain: "Kebijakan Internal SPBE",
+    domain:
+      "Domain 1: Kebijakan Internal SPBE | Aspek 1: Kebijakan Internal Tata Kelola SPBE",
     items: [
       {
         indikator: "Indikator 1",
-        penjelasan: "Tingkat Kematangan Kebijakan Internal Arsitektur SPBE",
         indeks: 3,
+        status: "Sama",
         target: 5,
         satker: "PUSDATIN",
-        substansi: "SPBE",
-        tindakLanjut: "Kepmen Arsitektur 303/M/2024",
+        progress: 75,
       },
       {
         indikator: "Indikator 2",
-        penjelasan: "Tingkat Kematangan Kebijakan Internal Peta Rencana SPBE",
         indeks: 3,
+        status: "Sama",
         target: 5,
         satker: "PUSDATIN",
-        substansi: "SPBE",
-        tindakLanjut: "Kepmen Peta Rencana (Draft)",
+        progress: 50,
+      },
+      {
+        indikator: "Indikator 3",
+        indeks: 3,
+        status: "Turun",
+        target: 5,
+        satker: "PUSDATIN",
+        progress: 55,
+      },
+      {
+        indikator: "Indikator 4",
+        indeks: 3,
+        status: "Sama",
+        target: 4,
+        satker: "PUSDATIN",
+        progress: 100,
       },
     ],
   },
   {
-    domain: "Tata Kelola Data",
+    domain: "Domain 2: Tata Kelola SPBE | Aspek 2: Perencanaan Strategis SPBE",
     items: [
       {
-        indikator: "Indikator 3",
-        penjelasan: "Tingkat Kematangan Kebijakan Internal Manajemen Data",
-        indeks: 3,
-        target: 4,
+        indikator: "Indikator 11",
+        indeks: 4,
+        status: "Turun",
+        target: 3,
         satker: "PUSDATIN",
-        substansi: "Data Pendidikan",
-        tindakLanjut: "Kepmen Arsitektur SPBE",
+        progress: 75,
       },
       {
-        indikator: "Indikator 4",
-        penjelasan: "Tingkat Kematangan Kebijakan Internal Audit TIK",
-        indeks: 4,
+        indikator: "Indikator 12",
+        indeks: 5,
+        status: "Sama",
         target: 5,
         satker: "PUSDATIN",
-        substansi: "PAKI",
-        tindakLanjut: "SK Pendampingan Audit Eksternal (KAPUS)",
+        progress: 50,
+      },
+      {
+        indikator: "Indikator 13",
+        indeks: 2,
+        status: "Naik",
+        target: 2,
+        satker: "Biro Perencanaan dan Pusdatin",
+        progress: 55,
+      },
+      {
+        indikator: "Indikator 14",
+        indeks: 5,
+        status: "Naik",
+        target: 5,
+        satker: "Biro Organisasi & Tata Laksana",
+        progress: 75,
       },
     ],
   },

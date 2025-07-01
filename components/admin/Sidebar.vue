@@ -27,7 +27,7 @@ import { Folder02Icon } from "@hugeicons/core-free-icons";
           text="Konfigurasi Instrumen"
         />
         <SidebarItem
-          to="/asesor"
+          to="/admin/hasil-respon"
           icon="Search01"
           text="Hasil Respon Instrumen"
         />
