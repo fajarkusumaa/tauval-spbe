@@ -59,8 +59,10 @@
                 item.tindakLanjut
               }}</TableCell>
               <TableCell class="rounded-sm bg-white text-center">
-                <Button size="sm" @click="handleEdit(item, group.domain.nama)" class="cursor-pointer">
-                  Edit
+                <Button as-child>
+                  <NuxtLink :to="`/admin/konfigurasi-instrumen/${i + 1}/edit`">
+                    Edits
+                  </NuxtLink>
                 </Button>
               </TableCell>
             </TableRow>
@@ -69,70 +71,6 @@
       </Table>
     </template>
   </div>
-
-  <Dialog :open="isDialogOpen" @update:open="(val) => (isDialogOpen = val)">
-    <DialogContent class="min-w-4xl">
-      <DialogHeader>
-        <DialogTitle class="text-xl mb-3">Edit Kriteria Indikator</DialogTitle>
-        <div class="space-y-1">
-          <p class="text-sm text-slate-600">
-            Domain: <strong>{{ selectedItem.domain }}</strong>
-          </p>
-          <p class="text-sm text-slate-600">
-            Indikator: <strong>{{ selectedItem.indikator }}</strong>
-          </p>
-        </div>
-      </DialogHeader>
-
-      <div class="grid grid-cols-3 gap-4 py-4">
-        <div class="col-span-1">
-          <Label class="mb-2">Satker</Label>
-          <Select>
-            <SelectTrigger class="w-full">
-              <SelectValue placeholder="Pilih Satker" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectGroup>
-                <SelectItem value="satker"> Satker </SelectItem>
-              </SelectGroup>
-            </SelectContent>
-          </Select>
-        </div>
-        <div class="col-span-1">
-          <Label class="mb-2">Asesor</Label>
-          <Select>
-            <SelectTrigger class="w-full">
-              <SelectValue placeholder="Pilih Asesor" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectGroup>
-                <SelectItem value="substansi"> SPBE </SelectItem>
-              </SelectGroup>
-            </SelectContent>
-          </Select>
-        </div>
-        <div class="col-span-1">
-          <Label class="mb-2">Prosentase Bobot</Label>
-          <Input type="number" />
-        </div>
-        <div class="col-span-3 mt-8">
-          <div class="flex gap-4 items-center">
-            <label class="font-semibold w-1/4">Tingkat</label>
-            <label class="font-semibold w-3/4">Kriteria</label>
-          </div>
-          <div v-for="(item, index) in selectedItem.kriteria" :key="index" class="flex gap-4 items-center mb-4">
-            <label class="font-semibold w-1/4">{{ item.level }}</label>
-            <Textarea v-model="item.deskripsi" rows="3" class="w-3/4 bg-slate-100 text-slate-700 p-2" />
-          </div>
-        </div>
-      </div>
-
-      <DialogFooter>
-        <!-- <Button variant="outline" @click="handleClose">Batal</Button> -->
-        <Button @click="handleSave">Simpan</Button>
-      </DialogFooter>
-    </DialogContent>
-  </Dialog>
 </template>
 
 <script setup lang="ts">
@@ -150,49 +88,7 @@ import {
   TableCell,
 } from "@/components/ui/table";
 import { Button } from "@/components/ui/button";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
 
-const isDialogOpen = ref(false);
-
-const selectedItem = ref<any>({
-  domain: "",
-  indikator: "",
-  kriteria: [],
-});
-
-const handleEdit = (item: any, domain: string) => {
-  selectedItem.value = {
-    domain: domain,
-    indikator: item.penjelasan, // kamu bisa ganti field ini sesuai kebutuhan
-    kriteria: [
-      { level: "Level 1", deskripsi: "..." },
-      { level: "Level 2", deskripsi: "..." },
-      { level: "Level 3", deskripsi: "..." },
-      { level: "Level 4", deskripsi: "..." },
-      { level: "Level 5", deskripsi: "..." },
-    ],
-  };
-  console.log(item);
-  isDialogOpen.value = true;
-};
-
-const handleClose = () => {
-  isDialogOpen.value = false;
-  // selectedItem.value = null;
-};
-
-const handleSave = () => {
-  // alert(`Data disimpan untuk indikator: ${selectedItem.value.indikator}`);
-  handleClose();
-};
 
 // Grouped Data: per domain
 const groupedData = [
@@ -254,8 +150,4 @@ const groupedData = [
     },
   },
 ];
-
-watchEffect(() => {
-  console.log("isDialogOpen changed to:", isDialogOpen.value);
-});
 </script>
