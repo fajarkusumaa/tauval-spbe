@@ -33,12 +33,12 @@
             :key="i"
             class="hover:bg-muted/200"
           >
-            <TableCell>{{ item.indikator }}</TableCell>
-            <TableCell>{{ item.indeks }}</TableCell>
-            <TableCell class="text-center">{{ item.status }}</TableCell>
-            <TableCell>{{ item.target }}</TableCell>
-            <TableCell>{{ item.satker }}</TableCell>
-            <TableCell>{{ item.progress }}</TableCell>
+            <TableCell class="rounded-sm bg-white">{{ item.indikator }}</TableCell>
+            <TableCell class="rounded-sm bg-white">{{ item.indeks }}</TableCell>
+            <TableCell class="text-center rounded-sm bg-white">{{ item.status }}</TableCell>
+            <TableCell class="rounded-sm bg-white">{{ item.target }}</TableCell>
+            <TableCell class="rounded-sm bg-white">{{ item.satker }}</TableCell>
+            <TableCell class="rounded-sm bg-white">{{ item.progress }}</TableCell>
           </TableRow>
         </TableBody>
       </Table>

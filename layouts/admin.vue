@@ -1,8 +1,7 @@
 <!-- layouts/admin.vue -->
 <template>
   <div
-    class="flex min-h-screen bg-gradient-to-br w-screen overflow-hidden from-[#E5F1FF] to-[#F1F5FF] text-gray-900 admin-background"
-  >
+    class="flex min-h-screen bg-gradient-to-br w-screen overflow-hidden from-[#E5F1FF] to-[#F1F5FF] text-gray-900 admin-background">
     <!-- Sidebar -->
     <Sidebar />
 
@@ -20,6 +19,13 @@
 </template>
 
 <script setup lang="ts">
+import { useToken } from "~/lib/token";
 import Sidebar from "../components/admin/Sidebar.vue";
 import Navbar from "~/components/admin/Navbar.vue";
+const token = useToken();
+
+if (!token.value) {
+  navigateTo("/login");
+}
+
 </script>

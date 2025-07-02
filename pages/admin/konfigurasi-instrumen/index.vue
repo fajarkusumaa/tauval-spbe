@@ -61,7 +61,7 @@
               <TableCell class="rounded-sm bg-white text-center">
                 <Button as-child>
                   <NuxtLink :to="`/admin/konfigurasi-instrumen/${i + 1}/edit`">
-                    Edits
+                    Edit
                   </NuxtLink>
                 </Button>
               </TableCell>
