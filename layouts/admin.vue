@@ -1,7 +1,7 @@
 <!-- layouts/admin.vue -->
 <template>
   <div
-    class="flex min-h-screen bg-gradient-to-br w-screen overflow-hidden from-[#E5F1FF] to-[#F1F5FF] text-gray-900"
+    class="flex min-h-screen bg-gradient-to-br w-screen overflow-hidden from-[#E5F1FF] to-[#F1F5FF] text-gray-900 admin-background"
   >
     <!-- Sidebar -->
     <Sidebar />

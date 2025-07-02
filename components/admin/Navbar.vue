@@ -6,7 +6,7 @@ import { HugeiconsIcon } from "@hugeicons/vue";
 <!-- components/admin/Navbar.vue -->
 <template>
   <header
-    class="flex items-center justify-end p-4 sticky top-0 backdrop-blur-md bg-transparent z-50 border-b border-slate-200"
+    class="flex items-center justify-end p-4 sticky top-0 backdrop-blur-md bg-transparent z-50"
   >
     <div class="flex items-center gap-4">
       <button class="text-gray-500 hover:text-gray-700 hover:cursor-pointer">
