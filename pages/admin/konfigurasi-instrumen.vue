@@ -8,33 +8,23 @@
       <Table class="overflow-x-auto mb-4 overflow-hidden border-separate">
         <TableBody>
           <!-- Header Domain (1x saja per domain) -->
-          <TableRow
-            class="hover:bg-slate-800 text-slate-50 font-semibold rounded-sm"
-          >
+          <TableRow class="hover:bg-slate-800 text-slate-50 font-semibold rounded-sm">
             <TableCell colspan="9" class="bg-slate-800 rounded-sm">
               Domain {{ index + 1 }}: {{ group.domain.nama }}
             </TableCell>
           </TableRow>
 
           <!-- Loop each Aspek inside this Domain -->
-          <template
-            v-for="(aspek, aspekIndex) in group.domain.aspek"
-            :key="aspekIndex"
-          >
+          <template v-for="(aspek, aspekIndex) in group.domain.aspek" :key="aspekIndex">
             <!-- Header Aspek -->
             <TableRow class="text-slate-50 font-semibold">
-              <TableCell
-                colspan="9"
-                class="hover:bg-slate-700 bg-slate-600 rounded-sm"
-              >
+              <TableCell colspan="9" class="hover:bg-slate-700 bg-slate-600 rounded-sm">
                 Aspek {{ aspekIndex + 1 }}. {{ aspek.nama }}
               </TableCell>
             </TableRow>
 
             <!-- Table Header -->
-            <TableRow
-              class="bg-slate-100 text-sm text-gray-600 hover:bg-gray-200"
-            >
+            <TableRow class="bg-slate-100 text-sm text-gray-600 hover:bg-gray-200">
               <TableHead>Indikator</TableHead>
               <TableHead class="w-8/12">Penjelasan</TableHead>
               <TableHead class="text-center">Indeks 2024</TableHead>
@@ -46,11 +36,7 @@
             </TableRow>
 
             <!-- Rows per Indikator -->
-            <TableRow
-              v-for="(item, i) in aspek.items"
-              :key="i"
-              class="hover:bg-muted/200"
-            >
+            <TableRow v-for="(item, i) in aspek.items" :key="i" class="hover:bg-muted/200">
               <TableCell class="rounded-sm bg-white">{{
                 item.indikator
               }}</TableCell>
@@ -73,11 +59,7 @@
                 item.tindakLanjut
               }}</TableCell>
               <TableCell class="rounded-sm bg-white text-center">
-                <Button
-                  size="sm"
-                  @click="handleEdit(item, group.domain.nama)"
-                  class="cursor-pointer"
-                >
+                <Button size="sm" @click="handleEdit(item, group.domain.nama)" class="cursor-pointer">
                   Edit
                 </Button>
               </TableCell>
@@ -88,12 +70,8 @@
     </template>
   </div>
 
-  <Dialog
-    :open="isDialogOpen"
-    @update:open="(val) => (isDialogOpen = val)"
-    class="w-4xl"
-  >
-    <DialogContent>
+  <Dialog :open="isDialogOpen" @update:open="(val) => (isDialogOpen = val)">
+    <DialogContent class="min-w-4xl">
       <DialogHeader>
         <DialogTitle class="text-xl mb-3">Edit Kriteria Indikator</DialogTitle>
         <div class="space-y-1">
@@ -106,22 +84,46 @@
         </div>
       </DialogHeader>
 
-      <div class="grid gap-4 py-4">
-        <div class="flex gap-4 items-center">
-          <label class="font-semibold w-1/4">Tingkat</label>
-          <label class="font-semibold w-3/4">Kriteria</label>
+      <div class="grid grid-cols-3 gap-4 py-4">
+        <div class="col-span-1">
+          <Label class="mb-2">Satker</Label>
+          <Select>
+            <SelectTrigger class="w-full">
+              <SelectValue placeholder="Pilih Satker" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectGroup>
+                <SelectItem value="satker"> Satker </SelectItem>
+              </SelectGroup>
+            </SelectContent>
+          </Select>
         </div>
-        <div
-          v-for="(item, index) in selectedItem.kriteria"
-          :key="index"
-          class="flex gap-4 items-center"
-        >
-          <label class="font-semibold w-1/4">{{ item.level }}</label>
-          <Textarea
-            v-model="item.deskripsi"
-            rows="3"
-            class="w-3/4 bg-slate-100 text-slate-700 p-2"
-          />
+        <div class="col-span-1">
+          <Label class="mb-2">Asesor</Label>
+          <Select>
+            <SelectTrigger class="w-full">
+              <SelectValue placeholder="Pilih Asesor" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectGroup>
+                <SelectItem value="substansi"> SPBE </SelectItem>
+              </SelectGroup>
+            </SelectContent>
+          </Select>
+        </div>
+        <div class="col-span-1">
+          <Label class="mb-2">Prosentase Bobot</Label>
+          <Input type="number" />
+        </div>
+        <div class="col-span-3 mt-8">
+          <div class="flex gap-4 items-center">
+            <label class="font-semibold w-1/4">Tingkat</label>
+            <label class="font-semibold w-3/4">Kriteria</label>
+          </div>
+          <div v-for="(item, index) in selectedItem.kriteria" :key="index" class="flex gap-4 items-center mb-4">
+            <label class="font-semibold w-1/4">{{ item.level }}</label>
+            <Textarea v-model="item.deskripsi" rows="3" class="w-3/4 bg-slate-100 text-slate-700 p-2" />
+          </div>
         </div>
       </div>
 
@@ -184,7 +186,7 @@ const handleEdit = (item: any, domain: string) => {
 
 const handleClose = () => {
   isDialogOpen.value = false;
-  selectedItem.value = null;
+  // selectedItem.value = null;
 };
 
 const handleSave = () => {
