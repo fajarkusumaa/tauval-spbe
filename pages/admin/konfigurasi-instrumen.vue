@@ -37,7 +37,7 @@
             >
               <TableHead>Indikator</TableHead>
               <TableHead class="w-8/12">Penjelasan</TableHead>
-              <TableHead class="text-center">Indeks</TableHead>
+              <TableHead class="text-center">Indeks 2024</TableHead>
               <TableHead class="text-center">Target</TableHead>
               <TableHead class="text-center">Satker</TableHead>
               <TableHead>Substansi</TableHead>
