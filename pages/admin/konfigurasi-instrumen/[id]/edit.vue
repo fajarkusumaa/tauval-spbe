@@ -17,6 +17,14 @@
   <div class="grid grid-cols-3 gap-4 py-4">
     <Card class="col-span-3">
       <CardContent class="grid grid-cols-3 gap-4">
+        <div class="col-span-3">
+          <Label class="mb-2">Deskripsi</Label>
+          <Textarea rows="6" placeholder="Tulis deskripsi indikator disini..."></Textarea>
+        </div>
+      </CardContent>
+    </Card>
+    <Card class="col-span-3">
+      <CardContent class="grid grid-cols-3 gap-4">
         <div class="col-span-1">
           <Label class="mb-2">Satker</Label>
           <Select>
@@ -25,7 +33,21 @@
             </SelectTrigger>
             <SelectContent>
               <SelectGroup>
-                <SelectItem value="satker"> Satker </SelectItem>
+                <SelectItem value="pusdatin">
+                  PUSDATIN
+                </SelectItem>
+                <SelectItem value="biro-perencanaan">
+                  Biro Perencanaan dan Pusdatin
+                </SelectItem>
+                <SelectItem value="biro-organisasi">
+                  Biro Organisasi & Tata Laksana
+                </SelectItem>
+                <SelectItem value="unitkerja">
+                  PUSDATIN & Unit Kerja
+                </SelectItem>
+                <SelectItem value="itjen">
+                  ITJEN
+                </SelectItem>
               </SelectGroup>
             </SelectContent>
           </Select>
@@ -39,6 +61,21 @@
             <SelectContent>
               <SelectGroup>
                 <SelectItem value="substansi"> SPBE </SelectItem>
+                <SelectItem value="data-pendidikan">
+                  Data Pendidikan & Data BudBas
+                </SelectItem>
+                <SelectItem value="paki">
+                  PAKI
+                </SelectItem>
+                <SelectItem value="infra">
+                  Infra
+                </SelectItem>
+                <SelectItem value="data">
+                  Data
+                </SelectItem>
+                <SelectItem value="data">
+                  Aplikasi
+                </SelectItem>
               </SelectGroup>
             </SelectContent>
           </Select>
@@ -78,15 +115,24 @@
                     <Button size="sm" @click="addDataDukung(index)">Tambah</Button>
                   </div>
                   <template v-for="(dataDukung, ddindex) in item.dataDukung" :key="index">
-                    <div class="flex mb-4">
-                      <div
-                        class="h-9 w-9 flex items-center justify-center bg-slate-50 rounded-md rounded-r-none border border-r-0">
+                    <div class="flex mb-4 gap-3">
+                      <div class="min-h-9 min-w-9 size-9 flex items-center justify-center bg-slate-50 ">
                         {{ ddindex + 1 }}
                       </div>
-                      <Input type="file" class="mt-0 rounded-l-none rounded-r-none py-1.75"
-                        @change="(e: Event) => onFileSelect(e, index, ddindex)" :key="dataDukung.index" />
-                      <Button variant="destructive" class="size-9 rounded-l-none"
-                        :disabled="item.dataDukung.length !== ddindex + 1 || item.dataDukung.length === 1" @click="removeDataDukung(index, dataDukung.index)">
+                      <div class="w-full">
+                        <Label class="mb-2">Nama</Label>
+                        <Input type="text" class="mt-0  py-1.75" v-model="item.dataDukung[ddindex].namaFile"
+                        :key="dataDukung.index" placeholder="Nama data dukung" />
+                      </div>
+                      <div class="w-full">
+                        <Label class="mb-2">Keterangan</Label>
+                        <Input type="text" class="mt-0  py-1.75" v-model="item.dataDukung[ddindex].keterangan"
+                          :key="dataDukung.index" placeholder="Beri keterangan" />
+                      </div>
+
+                      <Button variant="destructive" class="size-9"
+                        :disabled="item.dataDukung.length !== ddindex + 1 || item.dataDukung.length === 1"
+                        @click="removeDataDukung(index, dataDukung.index)">
                         -
                       </Button>
                     </div>
@@ -102,7 +148,6 @@
 </template>
 
 <script setup lang="ts">
-import { data } from 'autoprefixer';
 import Checkbox from '~/components/ui/checkbox/Checkbox.vue';
 
 definePageMeta({
@@ -112,7 +157,8 @@ function addDataDukung(kriteriaIndex: number) {
   const target = kriteria.value[kriteriaIndex]
   target.dataDukung.push({
     index: Math.random() * 1000,
-    value: null
+    namaFile: "",
+    keterangan: ""
   })
 }
 
@@ -121,19 +167,13 @@ function removeDataDukung(kriteriaIndex: number, dataIndex: number) {
   target.dataDukung = target.dataDukung.filter((item) => item.index !== dataIndex)
 }
 
-function onFileSelect(event: Event, kriteriaIndex: number, dataIndex: number) {
-  const files = (event.target as HTMLInputElement).files
-  if (files && files.length > 0) {
-    kriteria.value[kriteriaIndex].dataDukung[dataIndex].value = files[0]
-  }
-}
-
 const kriteria = ref([
   {
     level: "Level 1", deskripsi: "", needDataDukung: false, dataDukung: [
       {
         index: 1,
-        value: null as File | null
+        namaFile: "",
+        keterangan: ""
       }
     ]
   },
@@ -141,7 +181,8 @@ const kriteria = ref([
     level: "Level 2", deskripsi: "", needDataDukung: false, dataDukung: [
       {
         index: 1,
-        value: null as File | null
+        namaFile: "",
+        keterangan: ""
       }
     ]
   },
@@ -149,7 +190,8 @@ const kriteria = ref([
     level: "Level 3", deskripsi: "", needDataDukung: false, dataDukung: [
       {
         index: 1,
-        value: null as File | null
+        namaFile: "",
+        keterangan: ""
       }
     ]
   },
@@ -157,7 +199,8 @@ const kriteria = ref([
     level: "Level 4", deskripsi: "", needDataDukung: false, dataDukung: [
       {
         index: 1,
-        value: null as File | null
+        namaFile: "",
+        keterangan: ""
       }
     ]
   },
@@ -165,7 +208,8 @@ const kriteria = ref([
     level: "Level 5", deskripsi: "", needDataDukung: false, dataDukung: [
       {
         index: 1,
-        value: null as File | null
+        namaFile: "",
+        keterangan: ""
       }
     ]
   },
