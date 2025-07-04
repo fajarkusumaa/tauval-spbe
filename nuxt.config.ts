@@ -28,4 +28,9 @@ export default defineNuxtConfig({
       ],
     },
   },
+  runtimeConfig: {
+    public: {
+      apiBase: "https://tauval.pentahelix.co.id/api/v1",
+    },
+  },
 });

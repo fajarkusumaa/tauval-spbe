@@ -20,7 +20,7 @@
 
 <script setup lang="ts">
 import { useToken } from "~/lib/token";
-import Sidebar from "../components/admin/Sidebar.vue";
+import Sidebar from "~/components/admin/Sidebar.vue";
 import Navbar from "~/components/admin/Navbar.vue";
 const token = useToken();
 

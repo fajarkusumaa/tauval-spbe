@@ -1,4 +1,4 @@
-import type { User } from "~/types/user.types";
+import type { UserI } from "~/types/user.types";
 
 export const useToken = () =>
   useCookie<string | null>("token", {
@@ -11,7 +11,7 @@ export const useToken = () =>
   });
 
 export const useUser = () =>
-  useCookie<User | null>("user", {
+  useCookie<UserI | null>("user", {
     default: () => null,
     watch: true,
     sameSite: "lax",

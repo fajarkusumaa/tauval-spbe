@@ -19,9 +19,9 @@ function logout() {
       <button class="text-gray-500 hover:text-gray-700 hover:cursor-pointer">
         <HugeiconsIcon :icon="Notification01Icon" />
       </button>
-      <DropdownMenu>
+      <DropdownMenu >
         <DropdownMenuTrigger as-child>
-          <div class="flex items-center gap-2">
+          <div class="flex items-center gap-2 cursor-pointer">
             <img src="https://api.dicebear.com/9.x/thumbs/svg?seed=Christopher" class="w-8 h-8 rounded-full"
               alt="User" />
 
@@ -31,8 +31,8 @@ function logout() {
             </div>
           </div>
         </DropdownMenuTrigger>
-        <DropdownMenuContent class="w-45 mt-2">
-          <DropdownMenuLabel>My Account</DropdownMenuLabel>
+        <DropdownMenuContent align="start" class="w-45 mt-2">
+          <DropdownMenuLabel>Akun</DropdownMenuLabel>
           <DropdownMenuSeparator />
           <DropdownMenuItem @click="logout">Logout</DropdownMenuItem>
         </DropdownMenuContent>

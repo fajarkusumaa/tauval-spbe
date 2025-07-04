@@ -10,11 +10,11 @@
           <!-- Loop Domain Group -->
           <!-- Header Domain -->
           <TableRow
-            class="hover:bg-slate-800 bg-slate-800 text-slate-50 font-semibold"
+            class="hover:bg-slate-800 bg-slate-800 rounded-md overflow-hidden text-slate-50 font-semibold"
           >
-            <TableCell colspan="9">
+            <TableHead colspan="9">
               Domain {{ index + 1 }} : {{ group.domain }}
-            </TableCell>
+            </TableHead>
           </TableRow>
 
           <!-- Table Header -->
@@ -98,7 +98,6 @@ definePageMeta({
 import { ref } from "vue";
 import {
   Table,
-  TableHeader,
   TableBody,
   TableRow,
   TableHead,
@@ -108,11 +107,9 @@ import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
-  DialogDescription,
   DialogFooter,
   DialogHeader,
   DialogTitle,
-  DialogTrigger,
 } from "@/components/ui/dialog";
 
 const isDialogOpen = ref(false);

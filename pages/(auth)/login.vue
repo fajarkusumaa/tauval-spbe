@@ -61,6 +61,18 @@ import { HugeiconsIcon } from "@hugeicons/vue";
 import { useToken, useUser } from "~/lib/token";
 import type { LoginErrorResponseT, LoginSuccessResponseT } from "~/types/index.types";
 
+definePageMeta({
+  middleware: () => {
+    const token = useToken()
+
+    if (token.value) {
+      return navigateTo('/admin')
+    }
+  }
+})
+
+const config = useRuntimeConfig()
+
 const form = ref<HTMLFormElement | null>(null)
 
 const credentials = ref({
@@ -82,7 +94,7 @@ async function login() {
   const token = useToken();
   const user = useUser();
 
-  await $fetch<LoginSuccessResponseT>('https://tauval.pentahelix.co.id/api/v1/auth/login', {
+  await $fetch<LoginSuccessResponseT>(`${config.public.apiBase}/auth/login`, {
     method: 'POST',
     body: credentials.value
   }).then((res) => {
@@ -97,12 +109,4 @@ async function login() {
       loginError.value = err.data
     })
 };
-
-
-onMounted(() => {
-  const token = useToken();
-  if (token.value) {
-    navigateTo("/admin");
-  }
-})
 </script>

@@ -1,8 +1,8 @@
-export interface User {
+export interface UserI {
   id: number;
   username: string;
   name: string;
-  roles: Role[];
+  roles: RoleI[];
   email: string;
   phone: string;
   is_active: boolean;
@@ -11,7 +11,7 @@ export interface User {
   deleted_at: null;
 }
 
-export interface Role {
+export interface RoleI {
   id: number;
   name: string;
 }

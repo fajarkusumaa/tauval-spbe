@@ -1,11 +1,12 @@
 <template>
   <div>
     <h1 class="text-2xl font-bold text-slate-700 mb-6">
-      Konfigurasi Instrumen
+      Plotting Indikator Instrumen
     </h1>
+
     <LoadingIndicator v-if="fetchInstrumenStatus === 'pending'" />
     <template v-for="(group, index) in instrumenGroups" :key="index">
-      <Table class="overflow-x-auto mb-4 overflow-hidden border-separate">
+      <Table class="overflow-x-auto mb-8 overflow-hidden border-separate">
         <TableBody>
           <!-- Header Domain (1x saja per domain) -->
           <TableRow class="hover:bg-slate-800 text-slate-50 font-semibold rounded-sm">
@@ -26,40 +27,26 @@
             <!-- Table Header -->
             <TableRow class="bg-slate-100 text-sm text-gray-600 hover:bg-gray-200">
               <TableHead class="max-w-32">Indikator</TableHead>
-              <TableHead class="max-w-32">Penjelasan</TableHead>
-              <TableHead class="max-w-24 text-center">Indeks 2024</TableHead>
-              <TableHead class="max-w-24 text-center">Target</TableHead>
-              <TableHead class="max-w-24 text-center">Satker</TableHead>
-              <!-- <TableHead>Substansi</TableHead> -->
-              <!-- <TableHead class="w-4">Tindak Lanjut 2024</TableHead> -->
-              <TableHead class="max-w-24 text-center">Aksi</TableHead>
+              <TableHead class="max-w-32 ">Penjelasan</TableHead>
+              <TableHead class="max-w-18 text-center">Aksi</TableHead>
             </TableRow>
 
             <!-- Rows per Indikator -->
             <TableRow v-for="(item, i) in aspek.indikators" :key="i" class="hover:bg-muted/200">
-              <TableCell class="max-w-64 whitespace-normal rounded-sm bg-white">{{
-                item.indikator
-              }}</TableCell>
-              <TableCell class="max-w-64 whitespace-normal rounded-sm bg-white">{{
-                item.indikator
-              }}</TableCell>
-              <TableCell class="max-w-24 whitespace-normal rounded-sm bg-white text-center">{{
-                item.index_before
-              }}</TableCell>
-              <TableCell class="max-w-24 whitespace-normal rounded-sm bg-white text-center">{{
-                item.index_target
-              }}</TableCell>
-              <TableCell class="max-w-24 whitespace-normal rounded-sm bg-white">{{ item.satker?.name }}</TableCell>
-              <!-- <TableCell class="max-w-64 whitespace-normal rounded-sm bg-white text-center">{{
-                item.substansi
-              }}</TableCell> -->
-
-              <TableCell class="max-w-64 whitespace-normal rounded-sm bg-white text-center">
-                <Button as-child>
-                  <NuxtLink :to="`/admin/konfigurasi-instrumen/${i + 1}/edit`">
-                    Edit
-                  </NuxtLink>
-                </Button>
+              <TableCell class="max-w-32 whitespace-normal rounded-sm bg-white">
+                <div>
+                  {{ item.indikator }}
+                </div>
+              </TableCell>
+              <TableCell class="max-w-32 whitespace-normal rounded-sm bg-white">
+                <div>
+                  {{ item.indikator }}
+                </div>
+              </TableCell>
+              <TableCell class="max-w-18 whitespace-normal rounded-sm bg-white text-center">
+                <div>
+                  <PlotAssesorSelect :assesor-options="assesorOptions ? assesorOptions : []" />
+                </div>
               </TableCell>
             </TableRow>
           </template>
@@ -70,10 +57,6 @@
 </template>
 
 <script setup lang="ts">
-definePageMeta({
-  layout: "admin",
-});
-
 import {
   Table,
   TableBody,
@@ -81,13 +64,32 @@ import {
   TableHead,
   TableCell,
 } from "@/components/ui/table";
-import { Button } from "@/components/ui/button";
-import type { GetInstrumenResponseT } from "~/types/index.types";
 import { useToken } from "~/lib/token";
+import type { GetAsesorsResponseT, GetInstrumenResponseT } from "~/types/index.types";
+import PlotAssesorSelect from "~/components/admin/konfigurasi-asesor/plot-asesor-select.vue";
+
+definePageMeta({
+  layout: "admin",
+  middleware: 'auth',
+});
 
 const config = useRuntimeConfig();
 const token = useToken();
 
+// daftar asesor
+const { data: asesors } = useFetch<GetAsesorsResponseT>(`${config.public.apiBase}/asesors`, {
+  headers: {
+    Authorization: `Bearer ${token.value}`,
+  }
+});
+const assesorOptions = computed(() => asesors.value?.data.map(item => {
+  return {
+    label: item.nama,
+    value: item.id.toString()
+  }
+}));
+
+// instrumen
 const { data: instrumens, status: fetchInstrumenStatus } = useFetch<GetInstrumenResponseT>(`${config.public.apiBase}/instrumen/indikator`, {
   headers: {
     Authorization: `Bearer ${token.value}`,

@@ -1,4 +1,7 @@
-import type { User } from "./user.types";
+import type { AsesorI } from "./asesors.types";
+import type { InstrumenI } from "./instrumen.types";
+import type { SatkerI } from "./satker.types";
+import type { UserI } from "./user.types";
 
 export type BaseResponse<T> = {
   success: string;
@@ -8,7 +11,7 @@ export type BaseResponse<T> = {
 
 export type LoginSuccessResponseT = BaseResponse<{
   token: string;
-  user: User;
+  user: UserI;
 }>;
 
 export type LoginErrorResponseT = {
@@ -18,3 +21,9 @@ export type LoginErrorResponseT = {
     message: string[];
   };
 };
+
+export type GetAsesorsResponseT = BaseResponse<AsesorI[]>;
+
+export type GetInstrumenResponseT = BaseResponse<InstrumenI[]>;
+
+export type GetSatkerRefResponseT = BaseResponse<SatkerI[]>;
