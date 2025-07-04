@@ -31,14 +31,18 @@
         <template v-if="status === 'pending'">
           <TableRow>
             <TableCell colspan="9" class="text-center text-muted-foreground">
-              <HugeiconsIcon :icon="Loading03Icon" class="animate-spin" /> Memuat...
+              <div class="flex items-center justify-center gap-1">
+                <HugeiconsIcon :icon="Loading03Icon" class="animate-spin" /> Memuat...
+              </div>
             </TableCell>
           </TableRow>
         </template>
         <template v-else-if="status === 'error'">
           <TableRow>
             <TableCell colspan="9" class="text-center text-muted-foreground">
-              Error...
+              <div class="flex items-center justify-center gap-1 text-destructive">
+                <HugeiconsIcon :icon="CancelCircleHalfDotIcon" /> Galat...
+              </div>
             </TableCell>
           </TableRow>
         </template>
@@ -64,12 +68,10 @@
                 <span>{{ item.jabatan }}</span>
               </TableCell>
               <TableCell class="text-center flex justify-center gap-2">
-                <Button class="size-9" variant="outline" as-child>
-                  <NuxtLink :to="`/admin/konfigurasi-asesor/${item.id}/edit`">
-                    <HugeiconsIcon :icon="Pen01Icon" />
-                  </NuxtLink>
+                <Button class="size-9" variant="outline" @click="() => setEditState({ open: true, data: item })">
+                  <HugeiconsIcon :icon="Pen01Icon" />
                 </Button>
-                <Button class="size-9" variant="destructive">
+                <Button class="size-9" variant="destructive" @click="() => setDeleteState({ open: true, data: item })">
                   <HugeiconsIcon :icon="Delete02Icon" />
                 </Button>
               </TableCell>
@@ -79,41 +81,8 @@
       </TableBody>
     </Table>
   </div>
-
-  <Dialog :open="isDialogOpen" @update:open="(val) => (isDialogOpen = val)" class="w-4xl">
-    <DialogContent>
-      <DialogHeader>
-        <DialogTitle class="text-xl mb-3">Tambah User</DialogTitle>
-      </DialogHeader>
-
-      <div class="grid gap-4 pb-4">
-        <div class="flex gap-4 items-center">
-          <div class="grid w-2/3 max-w-sm items-center gap-1.5">
-            <Label for="nama">Nama</Label>
-            <Input id="nama" type="text" placeholder="Masukkan nama" />
-          </div>
-          <div class="grid w-1/3 max-w-sm items-center gap-1.5">
-            <Label for="role">Role</Label>
-            <Select>
-              <SelectTrigger class="w-full">
-                <SelectValue placeholder="Pilih Role" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectGroup>
-                  <SelectItem value="admin"> Admin </SelectItem>
-                  <SelectItem value="common"> Common User </SelectItem>
-                </SelectGroup>
-              </SelectContent>
-            </Select>
-          </div>
-        </div>
-      </div>
-
-      <DialogFooter>
-        <Button @click="handleSave">Simpan</Button>
-      </DialogFooter>
-    </DialogContent>
-  </Dialog>
+  <DeleteDialog />
+  <EditDialog />
 </template>
 
 <script setup lang="ts">
@@ -131,42 +100,24 @@ import {
   TableCell,
 } from "@/components/ui/table";
 import { Button } from "@/components/ui/button";
-import Dialog from "~/components/ui/dialog/Dialog.vue";
-import {
-  Select,
-  SelectContent,
-  SelectGroup,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "~/components/ui/select";
 import type { GetAsesorsResponseT } from "~/types/index.types";
 import { useToken } from "~/lib/token";
 import { HugeiconsIcon } from "@hugeicons/vue";
-import { Delete02Icon, Loading03Icon, MoreHorizontalSquare01Icon, Pen01Icon, PlusSignIcon } from "@hugeicons/core-free-icons";
+import { CancelCircleHalfDotIcon, Delete02Icon, Loading03Icon, MoreHorizontalSquare01Icon, Pen01Icon, PlusSignIcon } from "@hugeicons/core-free-icons";
+import { useKonfigurasiAsesorStore } from "~/store/konfigurasi-asesor-store";
+import DeleteDialog from "~/components/admin/konfigurasi-asesor/delete-dialog.vue";
+import EditDialog from "~/components/admin/konfigurasi-asesor/edit-dialog.vue";
 
 const config = useRuntimeConfig();
 const token = useToken()
 
+const store = useKonfigurasiAsesorStore()
+const { setDeleteState, setEditState } = store
+
 const { data, status, error } = useFetch<GetAsesorsResponseT>(`${config.public.apiBase}/asesors`, {
   headers: {
     Authorization: `Bearer ${token.value}`,
-  }
+  },
 });
 const assesors = computed(() => data.value?.data);
-
-const isDialogOpen = ref(false);
-const handleAddUser = () => {
-  isDialogOpen.value = true;
-};
-
-const handleEdit = (user: any) => {
-  alert(`Edit user: ${user.name}`);
-};
-
-const handleSave = () => {
-  // Simulasi penyimpanan data
-  alert("Data user telah disimpan.");
-  isDialogOpen.value = false;
-};
 </script>

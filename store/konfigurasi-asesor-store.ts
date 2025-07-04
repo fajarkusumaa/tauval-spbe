@@ -6,10 +6,17 @@ export const useKonfigurasiAsesorStore = defineStore("konfigurasi-asesor", {
       open: false as boolean,
       data: null as AsesorI | null,
     },
+    deleteState: {
+      open: false as boolean,
+      data: null as AsesorI | null,
+    },
   }),
   actions: {
-    setEdit(newState: { open?: boolean; data?: AsesorI | null }) {
+    setEditState(newState: { open?: boolean; data?: AsesorI | null }) {
       this.editState = { ...this.editState, ...newState };
+    },
+    setDeleteState(newState: { open?: boolean; data?: AsesorI | null }) {
+      this.deleteState = { ...this.deleteState, ...newState };
     },
   },
 });

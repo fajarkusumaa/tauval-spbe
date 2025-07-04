@@ -6,33 +6,41 @@
   </NuxtLink>
   <hr class="my-8 border border-slate-300">
   <h1 class="text-2xl font-bold text-slate-700 mb-6">Tambah Akun Asesor</h1>
+  <Alert variant="destructive" class="border-destructive bg-destructive/10 mb-4" v-if="error">
+    <AlertTitle>Galat!</AlertTitle>
+    <AlertDescription>
+      {{ error?.error.message.join(', ') }}
+    </AlertDescription>
+  </Alert>
   <form @submit.prevent="(e) => saveAsesor(e)" autocomplete="off">
     <Card>
       <CardContent>
         <div class="grid grid-cols-3 gap-4">
           <div>
             <Label class="mb-2">Kedudukan dalam tim</Label>
-            <Input name="jabatan" placeholder="Kedudukan dalam tim" />
+            <Input name="jabatan" placeholder="Masukkan kedudukan dalam tim" required :disabled="isSubmitting" />
           </div>
           <div>
             <Label class="mb-2">Nama</Label>
-            <Input name="nama" placeholder="Masukkan Nama" />
+            <Input name="nama" placeholder="Masukkan Nama" required :disabled="isSubmitting" />
           </div>
           <div>
             <Label class="mb-2">Email</Label>
-            <Input name="email" type="email" placeholder="Masukkan Email" />
+            <Input name="email" type="email" placeholder="Masukkan Email" required :disabled="isSubmitting" />
           </div>
           <div>
             <Label class="mb-2">Nomor Telepon</Label>
-            <Input name="phone" placeholder="Masukkan Nomor Telepon" />
+            <Input name="phone" placeholder="Masukkan Nomor Telepon" required :disabled="isSubmitting" />
           </div>
           <div>
             <Label class="mb-2">Username</Label>
-            <Input name="username" placeholder="Masukkan Username" autocomplete="off" />
+            <Input name="username" placeholder="Masukkan Username" autocomplete="off" required
+              :disabled="isSubmitting" />
           </div>
           <div>
             <Label class="mb-2">Password</Label>
-            <Input name="password" type="password" placeholder="Masukkan Password" autocomplete="off" />
+            <Input name="password" type="password" placeholder="Masukkan Password" autocomplete="off" required
+              :disabled="isSubmitting" />
           </div>
         </div>
         <div class="flex justify-end mt-6">
@@ -52,6 +60,7 @@ import { ArrowLeftIcon, FloppyDiskIcon, Loading03Icon, Tick01Icon, UnfoldMoreIco
 import { HugeiconsIcon } from '@hugeicons/vue';
 import { toast } from 'vue-sonner';
 import { useToken } from '~/lib/token';
+import type { ErrorResponseT } from '~/types/index.types';
 
 definePageMeta({
   middleware: 'auth',
@@ -61,15 +70,15 @@ definePageMeta({
 const config = useRuntimeConfig();
 const token = useToken();
 
-const value = ref<{ label: string, value: string }>();
 const isSubmitting = ref(false);
+const error = ref<ErrorResponseT | null>(null);
 
 async function saveAsesor(event: Event) {
   isSubmitting.value = true;
+  error.value = null; 
   const target = event.target as HTMLFormElement;
   const formData = new FormData(target);
-
-  await $fetch(`${config.public.apiBase}/asesors`, {
+  const promise = $fetch(`${config.public.apiBase}/asesors`, {
     method: 'POST',
     headers: {
       Authorization: `Bearer ${token.value}`,
@@ -77,7 +86,6 @@ async function saveAsesor(event: Event) {
     body: JSON.stringify({
       jabatan: formData.get('jabatan') as string,
       nama: formData.get('nama') as string,
-      satker_id: 1,
       user: {
         email: formData.get('email') as string,
         is_active: true,
@@ -87,16 +95,27 @@ async function saveAsesor(event: Event) {
         role_ids: [
           3
         ],
-        satker_id: 1,
+        // satker_id: 0,
         username: formData.get('username') as string
       }
     })
-  }).then((res) => {
-    isSubmitting.value = false;
-    toast.success('Berhasil menambahkan akun asesor baru');
-  }).catch((err) => {
-    isSubmitting.value = false;
-    toast.error('Gagal menambahkan akun asesor baru.');
+  })
+
+  toast.promise(promise, {
+    loading: 'Menyimpan...',
+    success: () => {
+      isSubmitting.value = false;
+      setTimeout(() => {
+        target.reset();
+      }, 100);
+      return 'Berhasil menambahkan akun asesor baru'
+    },
+    error: (err: any) => {
+      isSubmitting.value = false;
+      error.value = err.data;
+      return 'Gagal menambahkan akun asesor baru'
+    },
   })
 }
+
 </script>

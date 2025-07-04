@@ -9,6 +9,14 @@ export type BaseResponse<T> = {
   data: T;
 };
 
+export type ErrorResponseT = {
+  status: string;
+  error: {
+    code: string;
+    message: string[];
+  };
+};
+
 export type LoginSuccessResponseT = BaseResponse<{
   token: string;
   user: UserI;
