@@ -6,52 +6,59 @@
 
     <LoadingIndicator v-if="fetchInstrumenStatus === 'pending'" />
     <template v-for="(group, index) in instrumenGroups" :key="index">
-      <Table class="overflow-x-auto mb-8 overflow-hidden border-separate">
-        <TableBody>
-          <!-- Header Domain (1x saja per domain) -->
-          <TableRow class="hover:bg-slate-800 text-slate-50 font-semibold rounded-sm">
-            <TableCell colspan="9" class="bg-slate-800 rounded-sm">
-              Domain {{ index + 1 }}: {{ group.nama }}
-            </TableCell>
-          </TableRow>
+      <Accordion type="single" collapsible default-value="item-1">
+        <AccordionItem value="item-1">
+          <!-- domain -->
+          <AccordionTrigger
+            class="bg-slate-800 text-slate-50 font-semibold rounded-md p-4 w-full hover:no-underline cursor-pointer mb-1 [&_svg]:text-white">
+            Domain {{ index + 1 }}: {{ group.nama }}</AccordionTrigger>
+          <AccordionContent class="pb-0">
+            <!-- accordion aspek -->
+            <!-- Loop each Aspek inside this Domain -->
+            <template v-for="(aspek, aspekIndex) in group.aspeks" :key="aspekIndex">
+              <Accordion type="single" collapsible default-value="item-1">
+                <AccordionItem value="item-1">
+                  <AccordionTrigger
+                    class="bg-slate-700 text-sm text-white p-4 rounded-md hover:no-underline cursor-pointer mb-1 [&_svg]:text-white">
+                    Aspek {{ aspekIndex + 1 }}. {{ aspek.aspek }}</AccordionTrigger>
+                  <AccordionContent class="pb-1">
+                    <Table class="overflow-x-auto mb-8 overflow-hidden border-separate">
+                      <TableBody>
+                        <!-- Table Header -->
+                        <TableRow class="bg-slate-100 text-sm text-gray-600 hover:bg-gray-200">
+                          <TableHead class="max-w-32">Indikator</TableHead>
+                          <TableHead class="max-w-32 ">Penjelasan</TableHead>
+                          <TableHead class="max-w-18 text-center">Aksi</TableHead>
+                        </TableRow>
 
-          <!-- Loop each Aspek inside this Domain -->
-          <template v-for="(aspek, aspekIndex) in group.aspeks" :key="aspekIndex">
-            <!-- Header Aspek -->
-            <TableRow class="text-slate-50 font-semibold">
-              <TableCell colspan="9" class="hover:bg-slate-700 bg-slate-600 rounded-sm">
-                Aspek {{ aspekIndex + 1 }}. {{ aspek.aspek }}
-              </TableCell>
-            </TableRow>
+                        <!-- Rows per Indikator -->
+                        <TableRow v-for="(item, i) in aspek.indikators" :key="i" class="hover:bg-muted/200">
+                          <TableCell class="max-w-32 whitespace-normal rounded-sm bg-white">
+                            <div>
+                              {{ item.indikator }}
+                            </div>
+                          </TableCell>
+                          <TableCell class="max-w-32 whitespace-normal rounded-sm bg-white">
+                            <div>
+                              {{ item.indikator }}
+                            </div>
+                          </TableCell>
+                          <TableCell class="max-w-18 whitespace-normal rounded-sm bg-white text-center">
+                            <div>
+                              <PlotAssesorSelect :assesor-options="assesorOptions ? assesorOptions : []" />
+                            </div>
+                          </TableCell>
+                        </TableRow>
+                      </TableBody>
+                    </Table>
+                  </AccordionContent>
+                </AccordionItem>
+              </Accordion>
+            </template>
+          </AccordionContent>
+        </AccordionItem>
+      </Accordion>
 
-            <!-- Table Header -->
-            <TableRow class="bg-slate-100 text-sm text-gray-600 hover:bg-gray-200">
-              <TableHead class="max-w-32">Indikator</TableHead>
-              <TableHead class="max-w-32 ">Penjelasan</TableHead>
-              <TableHead class="max-w-18 text-center">Aksi</TableHead>
-            </TableRow>
-
-            <!-- Rows per Indikator -->
-            <TableRow v-for="(item, i) in aspek.indikators" :key="i" class="hover:bg-muted/200">
-              <TableCell class="max-w-32 whitespace-normal rounded-sm bg-white">
-                <div>
-                  {{ item.indikator }}
-                </div>
-              </TableCell>
-              <TableCell class="max-w-32 whitespace-normal rounded-sm bg-white">
-                <div>
-                  {{ item.indikator }}
-                </div>
-              </TableCell>
-              <TableCell class="max-w-18 whitespace-normal rounded-sm bg-white text-center">
-                <div>
-                  <PlotAssesorSelect :assesor-options="assesorOptions ? assesorOptions : []" />
-                </div>
-              </TableCell>
-            </TableRow>
-          </template>
-        </TableBody>
-      </Table>
     </template>
   </div>
 </template>
