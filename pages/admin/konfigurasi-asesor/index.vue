@@ -9,7 +9,6 @@
     </Alert>
     <!-- Tombol Tambah -->
     <div class="flex justify-end mb-4">
-
       <Button as-child>
         <NuxtLink to="/admin/konfigurasi-asesor/create">
           <HugeiconsIcon :icon="PlusSignIcon" /> Tambah Assesor
@@ -32,7 +31,7 @@
         <template v-if="status === 'pending'">
           <TableRow>
             <TableCell colspan="9" class="text-center text-muted-foreground">
-              Memuat...
+              <HugeiconsIcon :icon="Loading03Icon" class="animate-spin" /> Memuat...
             </TableCell>
           </TableRow>
         </template>
@@ -59,7 +58,7 @@
               </TableCell>
               <TableCell class="text-center">
                 <span class="bg-slate-100 rounded-full px-2 py-0.5 inline-block cursor-pointer">{{ item.user.username
-                  }}</span>
+                }}</span>
               </TableCell>
               <TableCell class="text-center">
                 <span>{{ item.jabatan }}</span>
@@ -144,7 +143,7 @@ import {
 import type { GetAsesorsResponseT } from "~/types/index.types";
 import { useToken } from "~/lib/token";
 import { HugeiconsIcon } from "@hugeicons/vue";
-import { Delete02Icon, MoreHorizontalSquare01Icon, Pen01Icon, PlusSignIcon } from "@hugeicons/core-free-icons";
+import { Delete02Icon, Loading03Icon, MoreHorizontalSquare01Icon, Pen01Icon, PlusSignIcon } from "@hugeicons/core-free-icons";
 
 const config = useRuntimeConfig();
 const token = useToken()

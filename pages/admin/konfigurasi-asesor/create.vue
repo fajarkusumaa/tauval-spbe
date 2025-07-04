@@ -11,8 +11,8 @@
       <CardContent>
         <div class="grid grid-cols-3 gap-4">
           <div>
-            <Label class="mb-2">Jabatan</Label>
-            <Input name="jabatan" placeholder="Masukkan Jabatan" />
+            <Label class="mb-2">Kedudukan dalam tim</Label>
+            <Input name="jabatan" placeholder="Kedudukan dalam tim" />
           </div>
           <div>
             <Label class="mb-2">Nama</Label>

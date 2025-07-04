@@ -7,7 +7,7 @@ export const useToken = () =>
     sameSite: "lax",
     secure: true,
     path: "/",
-    maxAge: 60 * 60 * 24 * 7,
+    maxAge: 60 * 60 * 24 * 1,
   });
 
 export const useUser = () =>
@@ -17,5 +17,5 @@ export const useUser = () =>
     sameSite: "lax",
     secure: true,
     path: "/",
-    maxAge: 60 * 60 * 24 * 7,
+    maxAge: 60 * 60 * 24 * 1,
   });

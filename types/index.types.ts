@@ -28,3 +28,6 @@ export type GetAsesorsByIDResponseT = BaseResponse<AsesorI>;
 export type GetInstrumenResponseT = BaseResponse<InstrumenI[]>;
 
 export type GetSatkerRefResponseT = BaseResponse<SatkerI[]>;
+
+// GET {api_base}/users
+export type GetUsersResponseT = BaseResponse<UserI[]>;
