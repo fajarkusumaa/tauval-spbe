@@ -1,5 +1,6 @@
 <!-- layouts/admin.vue -->
 <template>
+  <Toaster rich-colors position="top-center" />
   <div
     class="flex min-h-screen bg-gradient-to-br w-screen overflow-hidden from-[#E5F1FF] to-[#F1F5FF] text-gray-900 admin-background">
     <!-- Sidebar -->
@@ -22,6 +23,9 @@
 import { useToken } from "~/lib/token";
 import Sidebar from "~/components/admin/Sidebar.vue";
 import Navbar from "~/components/admin/Navbar.vue";
+import { Toaster } from '@/components/ui/sonner'
+import 'vue-sonner/style.css' // vue-sonner v2 re
+
 const token = useToken();
 
 if (!token.value) {

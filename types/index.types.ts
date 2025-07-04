@@ -23,6 +23,7 @@ export type LoginErrorResponseT = {
 };
 
 export type GetAsesorsResponseT = BaseResponse<AsesorI[]>;
+export type GetAsesorsByIDResponseT = BaseResponse<AsesorI>;
 
 export type GetInstrumenResponseT = BaseResponse<InstrumenI[]>;
 

@@ -24,8 +24,8 @@
           <TableHead class="p-2 text-center bg-slate-800 text-white rounded-md">Nama</TableHead>
           <TableHead class="p-2 text-center bg-slate-800 text-white rounded-md">User</TableHead>
           <TableHead class="p-2 text-center bg-slate-800 text-white rounded-md">Jabatan</TableHead>
-          <TableHead class="p-2 text-center bg-slate-800 text-white rounded-md">Satker</TableHead>
-          <TableHead class="p-2 text-center bg-slate-800 text-white rounded-md">Aksi</TableHead>
+          <!-- <TableHead class="p-2 text-center bg-slate-800 text-white rounded-md">Satker</TableHead> -->
+          <TableHead class="p-2 text-center bg-slate-800 text-white rounded-md w-32">Aksi</TableHead>
         </TableRow>
       </TableHeader>
       <TableBody>
@@ -64,11 +64,15 @@
               <TableCell class="text-center">
                 <span>{{ item.jabatan }}</span>
               </TableCell>
-              <TableCell class="text-center">
-                <span>{{ item.user.satker.Nama }}</span>
-              </TableCell>
-              <TableCell class="text-center">
-                <span>{{ item.user.satker.Nama }}</span>
+              <TableCell class="text-center flex justify-center gap-2">
+                <Button class="size-9" variant="outline" as-child>
+                  <NuxtLink :to="`/admin/konfigurasi-asesor/${item.id}/edit`">
+                    <HugeiconsIcon :icon="Pen01Icon" />
+                  </NuxtLink>
+                </Button>
+                <Button class="size-9" variant="destructive">
+                  <HugeiconsIcon :icon="Delete02Icon" />
+                </Button>
               </TableCell>
             </TableRow>
           </template>
@@ -140,7 +144,7 @@ import {
 import type { GetAsesorsResponseT } from "~/types/index.types";
 import { useToken } from "~/lib/token";
 import { HugeiconsIcon } from "@hugeicons/vue";
-import { PlusSignIcon } from "@hugeicons/core-free-icons";
+import { Delete02Icon, MoreHorizontalSquare01Icon, Pen01Icon, PlusSignIcon } from "@hugeicons/core-free-icons";
 
 const config = useRuntimeConfig();
 const token = useToken()

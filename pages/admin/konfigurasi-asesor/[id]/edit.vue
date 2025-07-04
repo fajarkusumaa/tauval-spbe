@@ -5,46 +5,38 @@
     </Button>
   </NuxtLink>
   <hr class="my-8 border border-slate-300">
-  <h1 class="text-2xl font-bold text-slate-700 mb-6">Tambah Akun Asesor</h1>
-  <form @submit.prevent="(e) => saveAsesor(e)" autocomplete="off">
-    <Card>
-      <CardContent>
-        <div class="grid grid-cols-3 gap-4">
-          <div>
-            <Label class="mb-2">Jabatan</Label>
-            <Input name="jabatan" placeholder="Masukkan Jabatan" />
+  <h1 class="text-2xl font-bold text-slate-700 mb-6">Edit Akun</h1>
+  <template v-if="status === 'pending'">
+    <LoadingIndicator />
+  </template>
+  <template v-else>
+    <form @submit.prevent="(e) => saveAsesor(e)" autocomplete="off">
+      <Card>
+        <CardContent>
+          <div class="grid grid-cols-3 gap-4">
+            <div>
+              <Label class="mb-2">Jabatan</Label>
+              <Input name="jabatan" :default-value="asesor?.jabatan" placeholder="Masukkan Jabatan" />
+            </div>
+            <div>
+              <Label class="mb-2">Nama</Label>
+              <Input name="nama" :default-value="asesor?.nama" placeholder="Masukkan Nama" />
+            </div>
           </div>
-          <div>
-            <Label class="mb-2">Nama</Label>
-            <Input name="nama" placeholder="Masukkan Nama" />
+          <div class="flex justify-between mt-6">
+            <div>
+            </div>
+            <Button type="submit" :disabled="isSubmitting">
+              <HugeiconsIcon :icon="FloppyDiskIcon" class="h-4 w-4 shrink-0" v-if="!isSubmitting" />
+              <HugeiconsIcon :icon="Loading03Icon" class="h-4 w-4 shrink-0 animate-spin" v-if="isSubmitting" />
+              Simpan akun asesor baru
+            </Button>
           </div>
-          <div>
-            <Label class="mb-2">Email</Label>
-            <Input name="email" type="email" placeholder="Masukkan Email" />
-          </div>
-          <div>
-            <Label class="mb-2">Nomor Telepon</Label>
-            <Input name="phone" placeholder="Masukkan Nomor Telepon" />
-          </div>
-          <div>
-            <Label class="mb-2">Username</Label>
-            <Input name="username" placeholder="Masukkan Username" autocomplete="off" />
-          </div>
-          <div>
-            <Label class="mb-2">Password</Label>
-            <Input name="password" type="password" placeholder="Masukkan Password" autocomplete="off" />
-          </div>
-        </div>
-        <div class="flex justify-end mt-6">
-          <Button type="submit" :disabled="isSubmitting">
-            <HugeiconsIcon :icon="FloppyDiskIcon" class="h-4 w-4 shrink-0" v-if="!isSubmitting" />
-            <HugeiconsIcon :icon="Loading03Icon" class="h-4 w-4 shrink-0 animate-spin" v-if="isSubmitting" />
-            Simpan akun asesor baru
-          </Button>
-        </div>
-      </CardContent>
-    </Card>
-  </form>
+        </CardContent>
+      </Card>
+    </form>
+  </template>
+
 </template>
 
 <script setup lang="ts">
@@ -52,6 +44,7 @@ import { ArrowLeftIcon, FloppyDiskIcon, Loading03Icon, Tick01Icon, UnfoldMoreIco
 import { HugeiconsIcon } from '@hugeicons/vue';
 import { toast } from 'vue-sonner';
 import { useToken } from '~/lib/token';
+import type { GetAsesorsByIDResponseT } from '~/types/index.types';
 
 definePageMeta({
   middleware: 'auth',
@@ -60,6 +53,16 @@ definePageMeta({
 
 const config = useRuntimeConfig();
 const token = useToken();
+const route = useRoute();
+
+
+const { data, status, error } = useFetch<GetAsesorsByIDResponseT>(`${config.public.apiBase}/asesors/${route.params.id}`, {
+  headers: {
+    Authorization: `Bearer ${token.value}`,
+  }
+});
+const asesor = computed(() => data.value?.data);
+
 
 const value = ref<{ label: string, value: string }>();
 const isSubmitting = ref(false);

@@ -66,7 +66,7 @@ import {
 } from "@/components/ui/table";
 import { useToken } from "~/lib/token";
 import type { GetAsesorsResponseT, GetInstrumenResponseT } from "~/types/index.types";
-import PlotAssesorSelect from "~/components/admin/konfigurasi-asesor/plot-asesor-select.vue";
+import PlotAssesorSelect from "~/components/admin/plotting-indikator-instrumen/plot-asesor-select.vue";
 
 definePageMeta({
   layout: "admin",
