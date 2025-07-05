@@ -94,11 +94,11 @@
                             >
                               <Button as-child>
                                 <NuxtLink
-                                  :to="`/admin/konfigurasi-instrumen/${
+                                  :to="`/admin/pengisian-instrumen/${
                                     i + 1
-                                  }/edit`"
+                                  }/submit`"
                                 >
-                                  Edit
+                                  Isi
                                 </NuxtLink>
                               </Button>
                             </TableCell>
