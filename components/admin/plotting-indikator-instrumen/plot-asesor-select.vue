@@ -1,10 +1,9 @@
 <template>
-  <Combobox v-model="value" by="label" class="w-full">
+  <Combobox v-model="value" by="value" class="w-full" @update:model-value="assignAsesor">
     <ComboboxAnchor as-child>
       <ComboboxTrigger as-child>
         <Button variant="outline" class="justify-between w-full">
-          {{ value?.label ?? 'Pilih asesor' }}
-
+          {{ Boolean(value?.label) ? value.label : 'Pilih asesor' }}
           <HugeiconsIcon :icon="UnfoldMoreIcon" class="ml-2 h-4 w-4 shrink-0 opacity-50" />
         </Button>
       </ComboboxTrigger>
@@ -39,15 +38,64 @@ import { Combobox, ComboboxAnchor, ComboboxEmpty, ComboboxGroup, ComboboxItem, C
 import { Tick01Icon, UnfoldMoreIcon } from '@hugeicons/core-free-icons';
 import { HugeiconsIcon } from '@hugeicons/vue';
 import ComboboxInput from '~/components/ui/combobox/ComboboxInput.vue';
+import { useToken } from '~/lib/token';
+import { toast } from 'vue-sonner';
+import type { IndikatorI } from '~/types/instrumen.types';
 
-defineProps<{
-  assesorOptions: { label: string, value: string }[] | []
+const props = defineProps<{
+  assesorOptions: { label: string, value: string }[] | [];
+  indikatorId: number;
+  defaultAsesor: IndikatorI['assesor'];
 }>()
 
 const emit = defineEmits<{
   (e: 'update:open', value: boolean): void
 }>()
 
+const config = useRuntimeConfig();
+const token = useToken();
 
-const value = ref<{ label: string, value: string }>()
+const value = toRef({
+  label: props.defaultAsesor?.name ?? '',
+  value: props.defaultAsesor?.id?.toString() ?? '',
+});
+const canChange = ref(false);
+
+async function assignAsesor() {
+  // isProcessing.value = true;
+  // error.value = null;
+  // const target = event.target as HTMLFormElement;
+  // const formData = new FormData(target);
+  if (!value.value) return
+
+  const promise = $fetch(`${config.public.apiBase}/instrumen/assign-asesor`, {
+    method: 'POST',
+    headers: {
+      Authorization: `Bearer ${token.value}`,
+    },
+    body: {
+      assesor_id: parseInt(value.value.value),
+      indikator_id: props.indikatorId
+    }
+  })
+
+  toast.promise(promise, {
+    loading: 'Mengupdate...',
+    success: () => {
+
+      return 'Berhasil menetapkan asesor'
+    },
+    error: (err: any) => {
+      value.value = { label: "", value: "" }
+      return 'Gagal menetapkan asesor' + err.data.error.message
+    },
+  })
+}
+
+// onMounted(() => {
+//   if (props.defaultAsesor) {
+//     value.value = { label: props.defaultAsesor.name, value: props.defaultAsesor.id.toString() }
+//   }
+//   canChange.value = true
+// })
 </script>

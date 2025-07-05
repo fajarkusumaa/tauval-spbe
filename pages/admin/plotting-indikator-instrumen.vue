@@ -22,7 +22,7 @@
                     class="bg-slate-700 text-sm text-white p-4 rounded-md hover:no-underline cursor-pointer mb-1 [&_svg]:text-white">
                     Aspek {{ aspekIndex + 1 }}. {{ aspek.aspek }}</AccordionTrigger>
                   <AccordionContent class="pb-1">
-                    <Table class="overflow-x-auto mb-8 overflow-hidden border-separate">
+                    <Table class="overflow-x-auto overflow-hidden border-separate">
                       <TableBody>
                         <!-- Table Header -->
                         <TableRow class="bg-slate-100 text-sm text-gray-600 hover:bg-gray-200">
@@ -45,7 +45,8 @@
                           </TableCell>
                           <TableCell class="max-w-18 whitespace-normal rounded-sm bg-white text-center">
                             <div>
-                              <PlotAssesorSelect :assesor-options="assesorOptions ? assesorOptions : []" />
+                              <PlotAssesorSelect :assesor-options="assesorOptions ? assesorOptions : []"
+                                :indikator-id="item.id" :defaultAsesor="item.assesor" />
                             </div>
                           </TableCell>
                         </TableRow>
