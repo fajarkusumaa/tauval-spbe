@@ -1,36 +1,40 @@
 <template>
-  <Dialog :open="createState.open" @update:open="(val) => (setCreateState({ open: val }))" class="w-4xl">
+  <Dialog :open="editState.open" @update:open="(val) => (setEditState({ open: val }))" class="w-4xl">
     <DialogContent>
       <DialogHeader>
-        <DialogTitle>Tambah User</DialogTitle>
-        <DialogDescription>Tambah user baru</DialogDescription>
+        <DialogTitle>Edit User</DialogTitle>
+        <DialogDescription>Edit informasi user</DialogDescription>
       </DialogHeader>
-      <form ref="form" class="" @submit.prevent="(e) => saveUser(e)">
+      <form ref="form" class="" @submit.prevent="(e) => updateUser(e)">
         <div class="grid grid-cols-2 gap-4">
           <div class="mb-3">
             <Label class="mb-2" for="nama">Nama</Label>
-            <Input id="nama" name="name" type="text" placeholder="Masukkan nama" />
+            <Input id="nama" name="name" type="text" placeholder="Masukkan nama"
+              :default-value="editState.data?.name" />
           </div>
           <div class="mb-3">
             <Label class="mb-2" for="email">Email</Label>
-            <Input id="email" name="email" type="email" placeholder="Masukkan email" />
+            <Input id="email" name="email" type="email" placeholder="Masukkan email"
+              :default-value="editState.data?.email" />
           </div>
           <div class="mb-3">
             <Label class="mb-2" for="phone">Telephone</Label>
-            <Input id="phone" name="phone" type="text" placeholder="Masukkan nomor telepon" />
+            <Input id="phone" name="phone" type="text" placeholder="Masukkan nomor telepon"
+              :default-value="editState.data?.phone" />
           </div>
           <div></div>
-          <div class="mb-3">
+          <!-- <div class="mb-3">
             <Label class="mb-2" for="username">Username</Label>
             <Input id="username" name="username" type="text" placeholder="Masukkan nomor telepon" />
           </div>
           <div class="mb-3">
             <Label class="mb-2" for="password">Password</Label>
             <Input id="password" name="password" type="password" placeholder="Masukkan nomor telepon" />
-          </div>
+          </div> -->
           <div class="mb-3">
             <Label class="mb-2" for="role">Role</Label>
-            <Select name="role" class="w-full" ref="roleSelect">
+
+            <Select name="role" class="w-full" ref="roleSelect" v-model="roleValue">
               <SelectTrigger class="w-full">
                 <SelectValue placeholder="Pilih Role" />
               </SelectTrigger>
@@ -128,19 +132,24 @@ const form = useTemplateRef("form");
 const satkerValue = ref<{ label: string, value: number }>();
 
 const store = useManajemenUserStore();
-const { setCreateState } = store;
-const { createState } = storeToRefs(store);
+const { setEditState } = store;
+const { editState } = storeToRefs(store);
 
 const isSubmitting = ref(false);
 const error = ref<ErrorResponseT | null>(null);
+const roleValue = ref();
 
-async function saveUser(event: Event) {
+watch(() => editState.value, () => {
+  roleValue.value = editState.value.data?.roles[0].id;
+})
+
+async function updateUser(event: Event) {
   isSubmitting.value = true;
   error.value = null;
   const target = event.target as HTMLFormElement;
   const formData = new FormData(target);
-  const promise = $fetch(`${config.public.apiBase}/users`, {
-    method: 'POST',
+  const promise = $fetch(`${config.public.apiBase}/users/${editState.value?.data?.id}`, {
+    method: 'PATCH',
     headers: {
       Authorization: `Bearer ${token.value}`,
     },
@@ -149,17 +158,15 @@ async function saveUser(event: Event) {
       is_active: true,
       name: formData.get('name') as string,
       phone: formData.get('phone') as string,
-      username: formData.get('username') as string,
-      password: formData.get('password') as string,
       role_ids: [
         parseInt(formData.get('role') as string)
       ],
-      satker_id: satkerValue.value?.value,
+      // satker_id: satkerValue.value?.value,
     }
   })
 
   toast.promise(promise, {
-    loading: 'Menyimpan...',
+    loading: 'Memperbarui...',
     success: () => {
       isSubmitting.value = false;
       setTimeout(() => {
@@ -167,13 +174,13 @@ async function saveUser(event: Event) {
         satkerValue.value = undefined;
       }, 100);
       emit('success');
-      setCreateState({ open: false });
-      return 'Berhasil menambahkan user baru'
+      setEditState({ open: false });
+      return 'Berhasil memperbarui user baru'
     },
     error: (err: any) => {
       isSubmitting.value = false;
       error.value = err.data;
-      return 'Gagal menambahkan user baru'
+      return 'Gagal memperbarui user baru'
     },
   })
 }

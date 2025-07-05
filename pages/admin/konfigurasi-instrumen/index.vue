@@ -22,7 +22,8 @@
                 <Accordion type="single" collapsible default-value="item-1">
                   <AccordionItem value="item-1">
                     <!-- nama aspek -->
-                    <AccordionTrigger class="bg-slate-700 text-sm text-white p-4 rounded-md hover:no-underline cursor-pointer mb-1 [&_svg]:text-white">
+                    <AccordionTrigger
+                      class="bg-slate-700 text-sm text-white p-4 rounded-md hover:no-underline cursor-pointer mb-1 [&_svg]:text-white">
                       Aspek {{ aspekIndex + 1 }}. {{ aspek.aspek }}
                     </AccordionTrigger>
                     <!-- list aspek -->
@@ -45,16 +46,16 @@
                           <TableRow v-for="(item, i) in aspek.indikators" :key="i" class="hover:bg-muted/200">
                             <TableCell class="max-w-64 whitespace-normal rounded-sm bg-white">{{
                               item.indikator
-                              }}</TableCell>
+                            }}</TableCell>
                             <TableCell class="max-w-64 whitespace-normal rounded-sm bg-white">{{
                               item.indikator
-                              }}</TableCell>
+                            }}</TableCell>
                             <TableCell class="max-w-24 whitespace-normal rounded-sm bg-white text-center">{{
                               item.index_before
-                              }}</TableCell>
+                            }}</TableCell>
                             <TableCell class="max-w-24 whitespace-normal rounded-sm bg-white text-center">{{
                               item.index_target
-                              }}</TableCell>
+                            }}</TableCell>
                             <TableCell class="max-w-24 whitespace-normal rounded-sm bg-white">{{ item.satker?.name }}
                             </TableCell>
                             <!-- <TableCell class="max-w-64 whitespace-normal rounded-sm bg-white text-center">{{
@@ -98,14 +99,11 @@ import {
 import { Button } from "@/components/ui/button";
 import type { GetInstrumenResponseT } from "~/types/index.types";
 import { useToken } from "~/lib/token";
+import { useAPI } from "~/lib/use-api";
 
 const config = useRuntimeConfig();
 const token = useToken();
 
-const { data: instrumens, status: fetchInstrumenStatus } = useFetch<GetInstrumenResponseT>(`${config.public.apiBase}/instrumen/indikator`, {
-  headers: {
-    Authorization: `Bearer ${token.value}`,
-  }
-});
+const { data: instrumens, status: fetchInstrumenStatus } = useAPI<GetInstrumenResponseT>(`${config.public.apiBase}/instrumen/indikator`);
 const instrumenGroups = computed(() => instrumens.value?.data);
 </script>

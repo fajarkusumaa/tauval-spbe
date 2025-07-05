@@ -62,7 +62,7 @@
               </TableCell>
               <TableCell class="text-center">
                 <span class="bg-slate-100 rounded-full px-2 py-0.5 inline-block cursor-pointer">{{ item.user.username
-                  }}</span>
+                }}</span>
               </TableCell>
               <TableCell class="text-center">
                 <span>{{ item.jabatan }}</span>
@@ -102,6 +102,7 @@ import { CancelCircleHalfDotIcon, Delete02Icon, Loading03Icon, MoreHorizontalSqu
 import { useKonfigurasiAsesorStore } from "~/store/konfigurasi-asesor-store";
 import DeleteDialog from "~/components/admin/konfigurasi-asesor/delete-dialog.vue";
 import EditDialog from "~/components/admin/konfigurasi-asesor/edit-dialog.vue";
+import { useAPI } from "~/lib/use-api";
 
 definePageMeta({
   layout: "admin",
@@ -114,10 +115,7 @@ const token = useToken()
 const store = useKonfigurasiAsesorStore()
 const { setDeleteState, setEditState } = store
 
-const { data, status, error, refresh } = useFetch<GetAsesorsResponseT>(`${config.public.apiBase}/asesors`, {
-  headers: {
-    Authorization: `Bearer ${token.value}`,
-  },
-});
+const { data, status, error, refresh } = useAPI<GetAsesorsResponseT>(`${config.public.apiBase}/asesors`);
+
 const assesors = computed(() => data.value?.data);
 </script>

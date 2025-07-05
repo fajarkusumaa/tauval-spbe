@@ -1,4 +1,3 @@
-import type { AsesorI } from "~/types/asesors.types";
 import type { UserI } from "~/types/user.types";
 
 export const useManajemenUserStore = defineStore("manajemen-user", {
@@ -11,6 +10,10 @@ export const useManajemenUserStore = defineStore("manajemen-user", {
       open: false as boolean,
       data: null as UserI | null,
     },
+    deleteState: {
+      open: false as boolean,
+      data: null as UserI | null,
+    },
   }),
   actions: {
     setCreateState(newState: { open?: boolean; data?: UserI | null }) {
@@ -18,6 +21,9 @@ export const useManajemenUserStore = defineStore("manajemen-user", {
     },
     setEditState(newState: { open?: boolean; data?: UserI | null }) {
       this.editState = { ...this.editState, ...newState };
+    },
+    setDeleteState(newState: { open?: boolean; data?: UserI | null }) {
+      this.deleteState = { ...this.deleteState, ...newState };
     },
   },
 });

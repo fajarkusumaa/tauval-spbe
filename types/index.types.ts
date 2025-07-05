@@ -7,6 +7,15 @@ export type BaseResponse<T> = {
   success: string;
   message: string;
   data: T;
+  meta: {
+    currentPage: number;
+    perPage: number;
+    totalCurrentPage: number;
+    totalPage: number;
+    totalData: number;
+    rangeStart: number;
+    rangeEnd: number;
+  };
 };
 
 export type ErrorResponseT = {
@@ -39,3 +48,6 @@ export type GetSatkerRefResponseT = BaseResponse<SatkerI[]>;
 
 // GET {api_base}/users
 export type GetUsersResponseT = BaseResponse<UserI[]>;
+
+// GET {api_base}/roles
+export type GetRolesResponseT = BaseResponse<{ id: number; name: string }[]>;
