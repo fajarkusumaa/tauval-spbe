@@ -25,6 +25,10 @@ import { toast } from 'vue-sonner';
 import { useToken } from '~/lib/token';
 import { useKonfigurasiAsesorStore } from '~/store/konfigurasi-asesor-store';
 
+const emit = defineEmits<{
+  success: [void]
+}>()
+
 const token = useToken();
 const config = useRuntimeConfig();
 
@@ -49,6 +53,7 @@ async function deleteAsesor(event: Event) {
     loading: 'Menghapus...',
     success: () => {
       isProcessing.value = false;
+      emit('success');
       return 'Berhasil menghapus akun asesor'
     },
     error: (err: any) => {

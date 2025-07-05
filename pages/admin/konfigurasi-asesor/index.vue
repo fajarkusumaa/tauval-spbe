@@ -62,7 +62,7 @@
               </TableCell>
               <TableCell class="text-center">
                 <span class="bg-slate-100 rounded-full px-2 py-0.5 inline-block cursor-pointer">{{ item.user.username
-                }}</span>
+                  }}</span>
               </TableCell>
               <TableCell class="text-center">
                 <span>{{ item.jabatan }}</span>
@@ -81,16 +81,11 @@
       </TableBody>
     </Table>
   </div>
-  <DeleteDialog />
-  <EditDialog />
+  <DeleteDialog @success="() => refresh()" />
+  <EditDialog @success="() => refresh()" />
 </template>
 
 <script setup lang="ts">
-definePageMeta({
-  layout: "admin",
-  middleware: 'auth',
-});
-
 import {
   Table,
   TableHeader,
@@ -108,13 +103,18 @@ import { useKonfigurasiAsesorStore } from "~/store/konfigurasi-asesor-store";
 import DeleteDialog from "~/components/admin/konfigurasi-asesor/delete-dialog.vue";
 import EditDialog from "~/components/admin/konfigurasi-asesor/edit-dialog.vue";
 
+definePageMeta({
+  layout: "admin",
+  middleware: 'auth',
+});
+
 const config = useRuntimeConfig();
 const token = useToken()
 
 const store = useKonfigurasiAsesorStore()
 const { setDeleteState, setEditState } = store
 
-const { data, status, error } = useFetch<GetAsesorsResponseT>(`${config.public.apiBase}/asesors`, {
+const { data, status, error, refresh } = useFetch<GetAsesorsResponseT>(`${config.public.apiBase}/asesors`, {
   headers: {
     Authorization: `Bearer ${token.value}`,
   },

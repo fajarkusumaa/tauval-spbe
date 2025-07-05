@@ -52,6 +52,11 @@ import { useToken } from '~/lib/token'
 import { useKonfigurasiAsesorStore } from '~/store/konfigurasi-asesor-store'
 import type { ErrorResponseT } from '~/types/index.types'
 
+
+const emit = defineEmits<{
+  success: [void]
+}>()
+
 const token = useToken()
 const config = useRuntimeConfig()
 
@@ -86,6 +91,7 @@ async function updateAsesor(event: Event) {
       setTimeout(() => {
         target.reset();
       }, 100);
+      emit('success');
       return 'Berhasil mengupdate akun asesor'
     },
     error: (err: any) => {
